@@ -1,0 +1,11 @@
+﻿<Application x:Class="GridMitAutomatischenAbstand.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:GridMitAutomatischenAbstand"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <Style TargetType="Grid" x:Key="specialGrid">
+            <Setter Property="local:GridManager.LeftMargin" Value="20" />
+        </Style>
+    </Application.Resources>
+</Application>

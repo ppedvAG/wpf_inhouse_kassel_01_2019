@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="WetterApp.WetterPresenter"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WetterApp"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="800">
+    <Grid x:Name="mainGrid" >
+        <Grid.Resources>
+            <local:StringToVisibilityConverter x:Key="stringVisConverter" />
+        </Grid.Resources>
+        <d:Grid.DataContext>
+            <local:WetterPresenter>
+                <local:WetterPresenter.Stadt>
+                    <local:Stadt Temperatur="20" Name="Kassel" />
+                </local:WetterPresenter.Stadt>
+            </local:WetterPresenter>
+        </d:Grid.DataContext>
+        <DockPanel Margin="20">
+            <StackPanel VerticalAlignment="Center" DockPanel.Dock="Left">
+                <TextBlock Margin="0 0 0 10"  FontSize="20" Text="{Binding Stadt.Name}" />
+                <TextBlock Visibility="{Binding Stadt.ErrorMessage,Converter={StaticResource stringVisConverter},ConverterParameter=true}" FontSize="20"><Run Text="{Binding Stadt.Temperatur}" />°</TextBlock>
+            </StackPanel>
+            <Grid Margin="10 0 0 0" x:Name="grid1">
+                <Image Visibility="{Binding Stadt.ErrorMessage,Converter={StaticResource stringVisConverter},ConverterParameter=true}" Source="{Binding Stadt.IconURL,Mode=OneWay}" />
+                <TextBlock MaxWidth="{Binding ElementName=grid1,Path=ActualWidth}" TextWrapping="Wrap" Foreground="Red" FontSize="20" VerticalAlignment="Center" Visibility="{Binding Stadt.ErrorMessage,Converter={StaticResource stringVisConverter}}" Text="{Binding Stadt.ErrorMessage}" />
+            </Grid>
+        </DockPanel>
+        <ProgressBar Visibility="{Binding Stadt.Temperatur,Converter={StaticResource stringVisConverter},ConverterParameter=true}" Margin="10" Height="20" IsIndeterminate="True" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" />
+    </Grid>
+</UserControl>

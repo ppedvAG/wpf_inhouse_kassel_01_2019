@@ -1,0 +1,23 @@
+﻿<Window x:Class="GridMitAutomatischenAbstand.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GridMitAutomatischenAbstand"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Border Background="Yellow" Margin="10" BorderBrush="Black" BorderThickness="2" Padding="10">
+        <Grid local:GridManager.LeftMargin="10" local:GridManager.RowNumber="0"  Style="{StaticResource specialGrid}">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <TextBlock>Überschrift</TextBlock>
+            <TextBlock Grid.Row="1">Test</TextBlock>
+            <TextBlock Grid.Row="2">Test</TextBlock>
+
+        </Grid>
+    </Border>
+</Window>

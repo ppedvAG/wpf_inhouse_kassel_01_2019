@@ -1,12 +1,144 @@
-﻿<Window x:Class="PersonenFormular.MainWindow"
+﻿<!--new-->
+<Window x:Class="PersonenFormular.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PersonenFormular"
+        xmlns:models="clr-namespace:PersonenModels;assembly=PersonenModels"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
+        WindowState="Maximized"
+        ResizeMode="NoResize"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+    <!--ViewModel als DataContext setzen-->
+    <Window.DataContext>
+        <models:MainWindowViewModel />
+    </Window.DataContext>
+    <!--Resourcen/Styles definieren-->
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="5" />
+        </Style>
+    </Window.Resources>
+
+    <!--Content des Windows-->
+    <DockPanel LastChildFill="True">
+        <!--Attached Property-->
+        <TextBlock FontSize="30" Padding="10" DockPanel.Dock="Top"  Background="Aqua" TextAlignment="Center">   
+            <Span Foreground="Red" FontWeight="ExtraBold" >P</Span>ersonanFormular
+        </TextBlock>
+        <TextBlock FontSize="20" Padding="10" DockPanel.Dock="Bottom"  Background="Aqua" TextAlignment="Center">   
+            Impressum
+        </TextBlock>
+        <StackPanel Background="Red">
+            <Button Click="Button_Click">
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation 
+                                            FillBehavior="Stop"
+                                            Storyboard.TargetName="renderWrapPanel"
+                                            Storyboard.TargetProperty="X"
+                                            To="0"
+                                            Duration="0:0:1"
+                                            Completed="Einblenden_Animation_Completed"
+                                            />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Button.Triggers>
+                Overlay einblenden
+            </Button>
+            <Button Click="Button_Ausblenden_Klick">Overlay ausblenden</Button>
+            <Button>Menu3</Button>
+        </StackPanel>
+        <Grid>
+            <!--#region Animiertes Overlay -->
+            <WrapPanel x:Name="wrap"  Visibility="Visible" FlowDirection="RightToLeft" VerticalAlignment="Center" HorizontalAlignment="Right"  Background="Fuchsia" Panel.ZIndex="3">
+                <WrapPanel.RenderTransform>
+                    <TranslateTransform x:Name="renderWrapPanel" X="{Binding ElementName=wrap,Path=ActualWidth}" />
+                </WrapPanel.RenderTransform>
+                <WrapPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="FontSize" Value="30" />
+                        <Setter Property="Margin" Value="20" />
+                    </Style>
+                </WrapPanel.Resources>
+
+                <Button>Test</Button>
+                <Button>Test</Button>
+                <Button>Test</Button>
+                <Button>Test</Button>
+                <Button>Test</Button>
+                <Button>Test</Button>
+                <Button>Test</Button>
+                <Button>Test</Button>
+                <Button>Test</Button>
+                <Button>Test</Button>
+                <Button>Test</Button>
+                <Button>Test</Button>
+                <Button>Test</Button>
+            </WrapPanel>
+            <!--#endregion-->
+            <Grid   Panel.ZIndex="1" Margin="20" Background="Beige">
+                <!--Property-Element-Syntax-->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="20" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!--Name-->
+                    <TextBlock>Name:</TextBlock>
+                    <TextBox x:Name="textboxName" Width="100" Text="{Binding NeuePerson.Name,TargetNullValue=Name,UpdateSourceTrigger=Explicit}"  VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="2" />
+
+                    <!--Alter-->
+                    <TextBlock Grid.Row="1">Alter: <Run Text="{Binding ElementName=sliderAlter,Path=Value}" /></TextBlock>
+                    <Slider x:Name="sliderAlter" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" Minimum="0" Maximum="150" Value="{Binding NeuePerson.Alter,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  />
+
+                    <!--Lieblingsfarbe-->
+                    <StackPanel Grid.Row="2">
+                        <TextBlock>
+                        Lieblingsfarbe</TextBlock>
+                        <Border Height="5" HorizontalAlignment="Stretch">
+                            <Border.Background>
+                                <SolidColorBrush Color="{Binding NeuePerson.Lieblingsfarbe,Converter={StaticResource colorToColor}}" />
+                            </Border.Background>
+                        </Border>
+                    </StackPanel>
+                    <WrapPanel Grid.Row="2" Grid.Column="2" RadioButton.Checked="RadioButton_Checked"  >
+                        <RadioButton x:Name="radio1" local:ColorManager.Color="Red" GroupName="Colors">Rot</RadioButton>
+                        <RadioButton local:ColorManager.Color="Yellow"  GroupName="Colors">Gelb</RadioButton>
+                        <RadioButton local:ColorManager.Color="Green" GroupName="Colors">Grün</RadioButton>
+                        <RadioButton local:ColorManager.Color="Blue" GroupName="Colors">Blau</RadioButton>
+                        <RadioButton GroupName="Colors" Grid.Row="3">Grün</RadioButton>
+                    </WrapPanel>
+                </Grid>
+
+                <DockPanel local:UniformPanelHelper.NormalizeWidth="True" LastChildFill="False" Grid.Row="1"  Background="Chocolate">
+                    <Button Margin="20 0 0 0" VerticalAlignment="Center">Abbrechen</Button>
+                    <Button Command="{Binding SaveCommand}" Margin="0 0 20 0" VerticalAlignment="Center" DockPanel.Dock="Right">OK</Button>
+                </DockPanel>
+            </Grid>
+        </Grid>
+    </DockPanel>
 </Window>

@@ -1,0 +1,28 @@
+﻿<Page x:Class="Lokalisierungsvarianten.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Lokalisierungsvarianten"
+      xmlns:resources="clr-namespace:Lokalisierungsvarianten.Properties"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="MainPage">
+    <Page.Resources>
+        <Style TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="10" />
+        </Style>
+    </Page.Resources>
+    <Viewbox>
+        <StackPanel VerticalAlignment="Center">
+            <TextBlock HorizontalAlignment="Center" Text="{x:Static resources:Resources.Hello }" />
+            <TextBlock HorizontalAlignment="Center" Text="{StaticResource welcome}" />
+            <!--{} = Markup-Extension-->
+            <Button Content="{StaticResource load}" />
+            <Button>
+                <StaticResource ResourceKey="save" />
+            </Button>
+        </StackPanel>
+    </Viewbox>
+</Page>
